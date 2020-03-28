@@ -1,5 +1,7 @@
 import scrapy
 from bs4 import BeautifulSoup
+from ..items import PTTArticleItem
+from pathlib import Path
 
 class PttFirstSpider(scrapy.Spider):
     name = 'PTTFirst'
@@ -17,6 +19,13 @@ class PttFirstSpider(scrapy.Spider):
             print('Error - {} is not available to access'.format(response.url))
             return
         soup = BeautifulSoup(response.text)
+        data = PTTArticleItem()
         for i in soup.find_all(class_='article-metaline'):
+            data[i.find(class_='article-meta-tag').text] = i.find(class_='article-meta-value').text
             print(i.find(class_='article-meta-tag').text, ':',  i.find(class_='article-meta-value').text)
+        
+        data['context'] = soup.find(id='main-container').text.split('\n')
         print('\n====== text ======\n', soup.find(id='main-container').text.split('\n'))
+        
+        print('data: ', data)
+        yield data

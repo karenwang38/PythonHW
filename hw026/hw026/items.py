@@ -8,7 +8,10 @@
 import scrapy
 
 
-class Hw026Item(scrapy.Item):
+class PTTArticleItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-    pass
+    作者 = scrapy.Field()
+    標題 = scrapy.Field()
+    時間 = scrapy.Field()
+    context = scrapy.Field()
