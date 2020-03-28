@@ -5,10 +5,13 @@ from pathlib import Path
 
 class PttFirstSpider(scrapy.Spider):
     name = 'PTTFirst'
-    allowed_domains = ['www.ptt.cc']
-    start_urls = ['https://www.ptt.cc/bbs/joke/M.1585109572.A.0D8.html']
-    cookies = {'over18': '1'}
     
+    def __init__(self, start_urls, filename=None):
+        self.cookies = {'over18': '1'}
+        self.start_urls = start_urls
+        self.filename = filename
+        super().__init__()
+        
     def start_requests(self):
         for url in self.start_urls:
             yield scrapy.Request(url=url, callback=self.parse, cookies=self.cookies)
